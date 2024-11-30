@@ -1,0 +1,254 @@
+/* Styling for the message container (card) */
+#message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff; /* White background for the card */
+    padding: 20px 40px; /* Padding inside the card */
+    border-radius: 15px; /* Rounded corners for the card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    text-align: center;
+    width: auto; /* Fixed width for the card */
+    cursor: pointer; /* Cursor style for the card */
+    opacity: 0; /* Initially hidden */
+    z-index: 1001;
+}
+
+/* First message: "Congratulations!" */
+#selamat-message {
+    font-size: 2.5rem;
+    color: #4caf50; /* Green for the text */
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: transparent; /* Typing cursor effect */
+    padding: 10px 0; /* Padding inside the message */
+    opacity: 1; /* Initially hidden */
+}
+
+/* Second message: "Meriang has been detected!" */
+#final-message {
+    font-size: 2rem;
+    color: #ff4081; /* Bright pink for the text */
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: transparent; /* Typing cursor effect */
+    padding: 10px 0; /* Padding inside the message */
+    opacity: 1; /* Initially hidden */
+}
+
+/* Typing effect animation */
+@keyframes typingEffect {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Show card and message with fade-in effect */
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+#message.fade-in {
+    animation: fadeInCard 1s ease forwards;
+}
+
+/* Typing animation for each message */
+#selamat-message.typing {
+    animation: typingEffect 3s steps(20) 0s forwards; /* Typing effect for the first message */
+}
+
+#final-message.typing {
+    animation: typingEffect 3s steps(31) 0s forwards; /* Typing effect for the second message */
+}
+
+
+/* General styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fce4ec; /* Latar belakang lembut warna pink pastel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  /* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 228, 228, 0.9); /* Soft pink background */
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  #loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .loading-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff69b4; /* Soft pink color for the text */
+    text-align: center;
+    position: relative;
+  }
+  
+  .loading-text span {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+  
+  .loading-text span:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  
+  .loading-text span:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  
+  .loading-text span:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+  
+  .loading-text span:nth-child(4) {
+    animation-delay: 0.8s;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  
+  
+  #game-container {
+    text-align: center;
+    background-color: #ffffff; /* Latar belakang putih pada kontainer game */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  #letter-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 100px); /* 7 kartu per baris */
+    grid-template-rows: repeat(2, 100px); /* 2 baris total */
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center; /* Menjaga kartu berada di tengah */
+  }
+  
+  /* Styling for letter boxes */
+  .letter-box {
+    width: 100px;
+    height: 100px;
+    background-color: #f8bbd0; /* Warna kartu lebih lembut */
+    border: 2px solid #ff80ab; /* Border merah muda lembut */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Warna kartu saat kartu dibuka */
+  .letter-box.open {
+    background-color: #ff80ab; /* Warna pink lembut */
+  }
+  
+  /* Styling for the letter text */
+  .letter-box .letter {
+    display: none;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff; /* Warna teks putih */
+    text-align: center;
+    line-height: 100px;
+    position: absolute;
+    z-index: 2; /* Pastikan teks berada di atas */
+  }
+  
+  /* Menampilkan teks saat kartu dibuka */
+  .letter-box.open .letter {
+    display: block;
+  }
+  
+  /* Target box untuk huruf yang cocok */
+  #target-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .target-box {
+    width: 100px;
+    height: 100px;
+    background-color: #ffebee; /* Latar belakang sangat ringan */
+    border: 2px solid #ff80ab; /* Border pink muda */
+    border-radius: 10px;
+    margin: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background-color: #fff3f3;
+  }
+  
+  
+  /* Efek Fade-in saat pesan akhir muncul */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Efek animasi untuk huruf yang berhasil */
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .letter-animated {
+    animation: slideUp 0.5s forwards;
+  }
