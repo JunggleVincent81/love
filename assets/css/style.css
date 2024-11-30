@@ -5,7 +5,55 @@ body {
     background: #ffe6e6; /* Sama dengan loading screen */
     overflow: hidden;
   }
-  
+  /* Media query untuk perangkat dengan lebar layar maksimal 768px (tablet & mobile) */
+@media screen and (max-width: 768px) {
+    #game-container {
+        padding: 20px;
+    }
+
+    #letter-grid {
+        grid-template-columns: repeat(4, 70px); /* 4 kartu per baris */
+        grid-template-rows: auto;
+        gap: 8px;
+    }
+
+    .letter-box {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+    }
+
+    #target-container {
+        flex-wrap: wrap; /* Memastikan target kotak ter-wrap jika layar kecil */
+        gap: 8px;
+    }
+
+    .target-box {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+    }
+
+    #message {
+        width: 90%; /* Sesuaikan ukuran card pesan dengan lebar layar */
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    #selamat-message {
+        font-size: 1.8rem; /* Ukuran font untuk pesan "Congratulations!" */
+    }
+
+    #final-message {
+        font-size: 1.5rem; /* Ukuran font untuk pesan kedua */
+    }
+
+    /* Loading screen */
+    .loading-text {
+        font-size: 1.2rem;
+    }
+}
+
   /* Loading Screen */
   #loading-screen {
     position: fixed;
