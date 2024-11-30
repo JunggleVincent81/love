@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Flip Card</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .card-back {
+            background-color: #ff4b4b;
+        }
+
+        .card-front {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .final-card, .option-card {
+            display: none;
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .final-card h1, .option-card h1 {
+            font-size: 2rem;
+            color: #ff4b4b;
+        }
+
+        .final-card button, .option-card button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #yes-btn, #maudeh-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #no-btn, #gk-btn {
+            background-color: #ff4b4b;
+            color: white;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            opacity: 0;
+            animation: fadeInOut 3s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    .fade-out {
+        animation: fadeOut 1s forwards;
+    }
+      /* Animasi Fade-in untuk Final Card */
+      @keyframes fadeIn {
+        0% { opacity: 0; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .fade-in {
+        animation: fadeIn 1s forwards;
+    }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card"><div class="card-inner"><div class="card-front">I</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">L</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">O</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">V</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">E</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Y</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">O</div><div class="card-back"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">U</div><div class="card-back"></div></div></div>
+    </div>
+
+    <div class="final-card">
+        <h1>PACARAN YUK?</h1>
+        <button id="yes-btn">MAU</button>
+        <button id="no-btn">GAK</button>
+    </div>
+
+    <div class="option-card">
+        <h1>Yakin gk mau? nyeselloh</h1>
+        <button id="maudeh-btn">MAUDEH</button>
+        <button id="gk-btn">GK</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll('.card');
+            const finalCard = document.querySelector('.final-card');
+            const optionCard = document.querySelector('.option-card');
+            let flippedCards = 0;
+
+            const showMessage = (text) => {
+                const message = document.createElement('div');
+                message.className = 'message';
+                message.textContent = text;
+                document.body.appendChild(message);
+                setTimeout(() => message.remove(), 3000);
+            };
+
+            const createEmoji = (type) => {
+                const emoji = document.createElement('div');
+                emoji.textContent = type;
+                emoji.className = 'emoji';
+                emoji.style.left = `${Math.random() * 100}vw`;
+                emoji.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 5000);
+            };
+
+            const rainEmojis = (type, count) => {
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => createEmoji(type), i * 100);
+                }
+            };
+
+            const checkAllFlipped = () => {
+                flippedCards++;
+                if (flippedCards === cards.length) {
+                    setTimeout(() => cards.forEach(card => card.style.opacity = 0), 1000);
+                    setTimeout(() => {
+                        cards.forEach(card => card.classList.add('fade-out'));
+                    }, 1000);
+                    setTimeout(() => {
+                        finalCard.style.display = 'block';
+                    }, 3000);
+                }
+            };
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    if (!card.classList.contains('flipped')) {
+                        card.classList.add('flipped');
+                        checkAllFlipped();
+                    }
+                });
+            });
+
+            const redirectAfterMessage = (url) => {
+        setTimeout(() => {
+            window.location.href = url; // Redirect ke URL tujuan
+        }, 3000); // Tunggu 3 detik (waktu animasi pesan selesai)
+    };
+
+    document.getElementById('yes-btn').addEventListener('click', () => {
+        finalCard.style.display = 'none';
+        rainEmojis('❤️', 100);
+        showMessage('YUHUUUUUUUUU');
+        redirectAfterMessage('image.jpg'); // Ganti dengan URL gambar kamu
+    });
+
+    document.getElementById('no-btn').addEventListener('click', () => {
+        finalCard.style.display = 'none';
+        optionCard.style.display = 'block';
+    });
+
+    document.getElementById('maudeh-btn').addEventListener('click', () => {
+        optionCard.style.display = 'none';
+        rainEmojis('❤️', 100);
+        showMessage('YUHUUUUUUUUU');
+        redirectAfterMessage('image.jpg'); // Ganti dengan URL gambar kamu
+    });
+
+    document.getElementById('gk-btn').addEventListener('click', () => {
+        optionCard.style.display = 'none';
+        rainEmojis('💔', 100);
+        showMessage('Hmmmmmmmmmm');
+        redirectAfterMessage('image.jpg'); // Ganti dengan URL gambar kamu
+    });
+});
+    </script>
+</body>
+</html>

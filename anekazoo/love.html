@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    /* General Styles */
+    body {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffe6e6; /* Background remains the same */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        animation: fadeOut 0.5s forwards;
+        animation-delay: 2.5s; /* Delay before transition */
+        margin: 0;
+    }
+  
+    .text-container {
+        text-align: center;
+        padding: 20px;
+    }
+  
+    .typed-text {
+        font-size: 3rem; /* Increased text size */
+        color: #ff4b4b;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for text */
+    }
+    .typed-text4 {
+        font-size: 3rem; /* Increased text size */
+        color: #ff4b4b;
+        font-weight: bold;
+        cursor: pointer;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for text */
+    }
+  
+    .typed-text4:hover {
+        text-decoration: underline;
+        color: #ff6b6b;
+    }
+  
+    /* Hidden class to hide elements */
+    .hidden {
+        display: none;
+    }
+  
+    /* Fade in animation */
+    .fade-in {
+        animation: fadeIn 1s ease-out forwards;
+    }
+  
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+        .typed-text {
+            font-size: 2rem; /* Smaller font size for mobile devices */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .typed-text {
+            font-size: 1.5rem; /* Even smaller for very small screens */
+        }
+    }
+
+    </style>
+</head>
+<body>
+    <div id="first-page">
+        <div class="text-container">
+            <p id="typed-text1" class="typed-text"></p>
+            <p id="typed-text2" class="typed-text hidden"></p>
+            <p id="typed-text3" class="typed-text hidden"></p>
+            <p id="typed-text4" class="typed-text4 hidden"></p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const typedText1 = document.getElementById("typed-text1");
+            const typedText2 = document.getElementById("typed-text2");
+            const typedText3 = document.getElementById("typed-text3");
+            const typedText4 = document.getElementById("typed-text4");
+            let currentTextIndex = 0;
+
+            const texts = [
+                "yahoooooo comelq telah ditemukan wkwkwk",
+                "y'opo seru gk? simple tapi lawak wkwkwk",
+                "yaaaa tapi seriuslah yah sekarang hehehe",
+                "males ribet ngomong tapi aku main flip kartuaelah ya,Nextlah"
+            ];
+
+            // Function to type each message
+            function typeMessage(currentTypedText, message, nextTextCallback) {
+                let i = 0;
+                currentTypedText.textContent = ""; // Clear text
+                function typeChar() {
+                    if (i < message.length) {
+                        currentTypedText.textContent += message.charAt(i);
+                        i++;
+                        setTimeout(typeChar, 100); // Typing speed
+                    } else {
+                        // After typing is done, call the nextTextCallback after a delay
+                        setTimeout(nextTextCallback, 1000); // Delay before moving to the next text
+                    }
+                }
+                typeChar();
+            }
+
+            // Start typing the first message and set timeouts to show the next messages automatically
+            function startTyping() {
+                typeMessage(typedText1, texts[currentTextIndex], () => {
+                    typedText1.classList.add("hidden");
+                    currentTextIndex++;
+                    typedText2.classList.remove("hidden");
+                    typeMessage(typedText2, texts[currentTextIndex], () => {
+                        typedText2.classList.add("hidden");
+                        currentTextIndex++;
+                        typedText3.classList.remove("hidden");
+                        typeMessage(typedText3, texts[currentTextIndex], () => {
+                            typedText3.classList.add("hidden");
+                            currentTextIndex++;
+                            typedText4.classList.remove("hidden");
+                            typeMessage(typedText4, texts[currentTextIndex], () => {
+                                // Set click event for the last message
+                                typedText4.addEventListener("click", () => {
+                                    window.location.href = "end.html"; // Redirect to game.html
+                                });
+                            });
+                        });
+                    });
+                });
+            }
+
+            // Start the typing process for the first message
+            startTyping();
+        });
+    </script>
+</body>
+</html>
